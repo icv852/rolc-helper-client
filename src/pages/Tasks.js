@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Select, Input } from 'antd';
-import axios from "axios";
+import axios from 'axios';
 
 const { Option } = Select;
 
@@ -8,16 +8,21 @@ export default function Tasks() {
   const [tasks, setTasks] = useState(null);
   // State for the selected time filter (e.g., "day", "evening", etc.)
   const [filterKey, setFilterKey] = useState(null);
-  // State for the item name filter input
+  // State for the item name filter (free text input)
   const [itemNameFilter, setItemNameFilter] = useState("");
+  // State for the DLC filter (dropdown)
+  const [dlcFilter, setDlcFilter] = useState(null);
 
   useEffect(() => {
     const runEffect = async () => {
       try {
-        const response = await axios.get(`${process.env.REACT_APP_BACKEND_BASE_URL}/tasks`);
-        setTasks(response.data); // response.data should contain your JSON data
+        const response = await axios.get(
+          `${process.env.REACT_APP_BACKEND_BASE_URL}/tasks`
+        );
+        // Set the actual JSON data into state
+        setTasks(response.data);
       } catch (error) {
-        console.error("Error fetching tasks:", error);
+        console.error('Error fetching tasks:', error);
       }
     };
     runEffect();
@@ -27,11 +32,11 @@ export default function Tasks() {
     return <>loading...</>;
   }
 
-  // Convert the JSON object into an array suitable for the Table.
+  // Convert the JSON object into an array for the Table.
   const dataArr = Object.keys(tasks).map((key) => ({
-    key, // Unique key for each row
+    key, // unique key for each row
     ...tasks[key],
-    // Optionally ensure time values are booleans
+    // Ensure the time properties are booleans (if needed)
     day: tasks[key].day === true || tasks[key].day === 'true',
     dayS: tasks[key].dayS === true || tasks[key].dayS === 'true',
     evening: tasks[key].evening === true || tasks[key].evening === 'true',
@@ -40,19 +45,25 @@ export default function Tasks() {
     nightS: tasks[key].nightS === true || tasks[key].nightS === 'true',
   }));
 
-  // Handle dropdown change for time filtering.
+  // Dynamically generate unique DLC names for the dropdown.
+  const uniqueDLC = [...new Set(dataArr.map((entry) => entry.dlcName))];
+
+  // Update state when the time dropdown selection changes.
   const handleFilterChange = (value) => {
     setFilterKey(value);
   };
 
-  // Apply filtering based on time and item name.
+  // Filter the data based on all conditions.
   const filteredData = dataArr.filter((entry) => {
     const passesTimeFilter = filterKey ? entry[filterKey] === true : true;
-    const passesItemNameFilter = itemNameFilter ? entry.itemName === itemNameFilter : true;
-    return passesTimeFilter && passesItemNameFilter;
+    const passesItemNameFilter = itemNameFilter
+      ? entry.itemName === itemNameFilter
+      : true;
+    const passesDLCFilter = dlcFilter ? entry.dlcName === dlcFilter : true;
+    return passesTimeFilter && passesItemNameFilter && passesDLCFilter;
   });
 
-  // Table columns definition.
+  // Define the table columns.
   const columns = [
     {
       title: 'Name',
@@ -83,8 +94,9 @@ export default function Tasks() {
 
   return (
     <div style={{ padding: 20 }}>
-      <h2>Tasks</h2>
-      <div style={{ marginBottom: 16, display: "flex", alignItems: "center" }}>
+      <h2>クエストリスト</h2>
+      <div style={{ marginBottom: 16, display: 'flex', alignItems: 'center' }}>
+        {/* Time filter dropdown */}
         <Select
           placeholder="Select time filter"
           style={{ width: 200 }}
@@ -98,12 +110,28 @@ export default function Tasks() {
           <Option value="night">Night</Option>
           <Option value="nightS">Night S</Option>
         </Select>
+
+        {/* Item name free text filter */}
         <Input
           placeholder="Filter by item name"
           style={{ width: 200, marginLeft: 16 }}
           onChange={(e) => setItemNameFilter(e.target.value)}
           allowClear
         />
+
+        {/* DLC filter dropdown */}
+        <Select
+          placeholder="Select DLC filter"
+          style={{ width: 200, marginLeft: 16 }}
+          onChange={(value) => setDlcFilter(value)}
+          allowClear
+        >
+          {uniqueDLC.map((dlc, index) => (
+            <Option key={index} value={dlc}>
+              {dlc}
+            </Option>
+          ))}
+        </Select>
       </div>
       <Table dataSource={filteredData} columns={columns} rowKey="key" />
     </div>
