@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
 import Tasks from './pages/Tasks';
 import Weapons from './pages/Weapons';
+import Rings from './pages/Rings';
 
 const { Sider, Content } = Layout;
 
@@ -23,6 +24,9 @@ const App = () => {
             <Menu.Item key="/weapons">
               <Link to="/weapons">Weapons</Link>
             </Menu.Item>
+            <Menu.Item key="/rings">
+              <Link to="/rings">Rings</Link>
+            </Menu.Item>
           </Menu>
         </Sider>
 
@@ -34,6 +38,9 @@ const App = () => {
             </Routes>
             <Routes>
               <Route path="/weapons" element={<Weapons />} />
+            </Routes>
+            <Routes>
+              <Route path="/rings" element={<Rings />} />
             </Routes>
           </Content>
         </Layout>
