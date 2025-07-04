@@ -32,6 +32,30 @@ export default function Tasks() {
     return <>loading...</>;
   }
 
+  function getTimes(task) {
+    const isDay = task.day === true || task.day === 'true'
+    const isDayS = task.dayS === true || task.dayS === 'true'
+    const isEvening = task.evening === true || task.evening === 'true'
+    const isEveningS = task.eveningS === true || task.eveningS === 'true'
+    const isNight = task.night === true || task.night === 'true'
+    const isNightS = task.nightS === true || task.nightS === 'true'
+
+    const isDayAll = isDay && isDayS
+    const isEveningAll = isEvening && isEveningS
+    const isNightAll = isNight && isNightS
+
+    if (isDayAll && isEveningAll && isNightAll) {
+      return "常時"
+    }
+
+    const dayString = isDayAll ? "昼 " : isDay ? "昼(平常) " : isDayS ? "昼(特殊) " : ""
+    const eveningString = isEveningAll ? "朝夕 " : isEvening ? "朝夕(平常) " : isEveningS ? "朝夕(特殊) " : ""
+    const nightString = isNightAll ? "夜 " : isNight ? "夜(平常) " : isNightS ? "夜(特殊) " : ""
+
+    return `${dayString}${eveningString}${nightString}`
+  }
+
+
   // Convert the JSON object into an array for the Table.
   const dataArr = Object.keys(tasks).map((key) => ({
     key, // unique key for each row
@@ -43,6 +67,7 @@ export default function Tasks() {
     eveningS: tasks[key].eveningS === true || tasks[key].eveningS === 'true',
     night: tasks[key].night === true || tasks[key].night === 'true',
     nightS: tasks[key].nightS === true || tasks[key].nightS === 'true',
+    times: getTimes(tasks[key])
   }));
 
   // Dynamically generate unique DLC names for the dropdown.
@@ -89,6 +114,11 @@ export default function Tasks() {
       title: 'Item Name',
       dataIndex: 'itemName',
       key: 'itemName',
+    },
+    {
+      title: "Times",
+      dataIndex: "times",
+      key: "times"
     },
   ];
 
