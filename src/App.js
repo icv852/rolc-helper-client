@@ -5,6 +5,7 @@ import Tasks from './pages/Tasks';
 import Weapons from './pages/Weapons';
 import Rings from './pages/Rings';
 import Items from './pages/Items';
+import Equipments from './pages/Equipment';
 
 const { Sider, Content } = Layout;
 
@@ -27,6 +28,9 @@ const App = () => {
             </Menu.Item>
             <Menu.Item key="/rings">
               <Link to="/rings">Rings</Link>
+            </Menu.Item>            
+            <Menu.Item key="/equipments">
+              <Link to="/equipments">Equipments</Link>
             </Menu.Item>
             <Menu.Item key="/item">
               <Link to="/items">Items</Link>
@@ -48,6 +52,9 @@ const App = () => {
             </Routes>
             <Routes>
               <Route path="/items" element={<Items />} />
+            </Routes>
+            <Routes>
+              <Route path="/equipments" element={<Equipments />} />
             </Routes>
           </Content>
         </Layout>
