@@ -188,7 +188,7 @@ export default function Equipments() {
 
   return (
     <div style={{ padding: 20 }}>
-      <h2>Equipments List</h2>
+      <h2>Equipments</h2>
       <div style={{ marginBottom: 16 }}>
         {/* First row of filters */}
         <div style={{ display: 'flex', alignItems: 'center', marginBottom: 8 }}>

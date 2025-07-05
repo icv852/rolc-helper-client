@@ -185,7 +185,7 @@ export default function Weapons() {
 
   return (
     <div style={{ padding: 20 }}>
-      <h2>武器リスト</h2>
+      <h2>Weapons</h2>
       <div style={{ marginBottom: 16, display: 'flex', alignItems: 'center' }}>
         {/* Weapon name filter */}
         <Input

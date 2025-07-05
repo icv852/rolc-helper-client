@@ -67,7 +67,10 @@ export default function Tasks() {
     eveningS: tasks[key].eveningS === true || tasks[key].eveningS === 'true',
     night: tasks[key].night === true || tasks[key].night === 'true',
     nightS: tasks[key].nightS === true || tasks[key].nightS === 'true',
-    times: getTimes(tasks[key])
+    times: getTimes(tasks[key]),
+    rank: tasks[key].map.rank,
+    level: tasks[key].map.maxLv,
+    notBoss: tasks[key].notBoss ? "yes" : "",
   }));
 
   // Dynamically generate unique DLC names for the dropdown.
@@ -96,11 +99,6 @@ export default function Tasks() {
       key: 'name',
     },
     {
-      title: 'Difficulty',
-      dataIndex: 'difficulty',
-      key: 'difficulty',
-    },
-    {
       title: 'Map Name',
       dataIndex: 'mapName',
       key: 'mapName',
@@ -120,11 +118,26 @@ export default function Tasks() {
       dataIndex: "times",
       key: "times"
     },
+    {
+      title: "Rank",
+      dataIndex: "rank",
+      key: "rank"
+    },
+    {
+      title: "Level",
+      dataIndex: "level",
+      key: "level"
+    },
+    {
+      title: "Not final boss",
+      dataIndex: "notBoss",
+      key: "notBoss"
+    }
   ];
 
   return (
     <div style={{ padding: 20 }}>
-      <h2>クエストリスト</h2>
+      <h2>Tasks</h2>
       <div style={{ marginBottom: 16, display: 'flex', alignItems: 'center' }}>
         {/* Time filter dropdown */}
         <Select

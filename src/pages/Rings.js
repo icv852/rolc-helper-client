@@ -182,7 +182,7 @@ export default function Rings() {
 
   return (
     <div style={{ padding: 20 }}>
-      <h2>リングリスト</h2>
+      <h2>Rings</h2>
       <div style={{ marginBottom: 16, display: 'flex', alignItems: 'center' }}>
         {/* Ring name filter */}
         <Input

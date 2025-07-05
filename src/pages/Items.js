@@ -102,7 +102,7 @@ export default function Items() {
 
   return (
     <div style={{ padding: 20 }}>
-      <h2>Items List</h2>
+      <h2>Items</h2>
       <div style={{ marginBottom: 16, display: 'flex', alignItems: 'center' }}>
         {/* Free text filter for item name */}
         <Input
