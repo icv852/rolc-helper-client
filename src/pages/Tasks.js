@@ -33,28 +33,27 @@ export default function Tasks() {
   }
 
   function getTimes(task) {
-    const isDay = task.day === true || task.day === 'true'
-    const isDayS = task.dayS === true || task.dayS === 'true'
-    const isEvening = task.evening === true || task.evening === 'true'
-    const isEveningS = task.eveningS === true || task.eveningS === 'true'
-    const isNight = task.night === true || task.night === 'true'
-    const isNightS = task.nightS === true || task.nightS === 'true'
+    const isDay = task.day === true || task.day === 'true';
+    const isDayS = task.dayS === true || task.dayS === 'true';
+    const isEvening = task.evening === true || task.evening === 'true';
+    const isEveningS = task.eveningS === true || task.eveningS === 'true';
+    const isNight = task.night === true || task.night === 'true';
+    const isNightS = task.nightS === true || task.nightS === 'true';
 
-    const isDayAll = isDay && isDayS
-    const isEveningAll = isEvening && isEveningS
-    const isNightAll = isNight && isNightS
+    const isDayAll = isDay && isDayS;
+    const isEveningAll = isEvening && isEveningS;
+    const isNightAll = isNight && isNightS;
 
     if (isDayAll && isEveningAll && isNightAll) {
-      return "常時"
+      return "常時";
     }
 
-    const dayString = isDayAll ? "昼 " : isDay ? "昼(平常) " : isDayS ? "昼(特殊) " : ""
-    const eveningString = isEveningAll ? "朝夕 " : isEvening ? "朝夕(平常) " : isEveningS ? "朝夕(特殊) " : ""
-    const nightString = isNightAll ? "夜 " : isNight ? "夜(平常) " : isNightS ? "夜(特殊) " : ""
+    const dayString = isDayAll ? "昼 " : isDay ? "昼(平常) " : isDayS ? "昼(特殊) " : "";
+    const eveningString = isEveningAll ? "朝夕 " : isEvening ? "朝夕(平常) " : isEveningS ? "朝夕(特殊) " : "";
+    const nightString = isNightAll ? "夜 " : isNight ? "夜(平常) " : isNightS ? "夜(特殊) " : "";
 
-    return `${dayString}${eveningString}${nightString}`
+    return `${dayString}${eveningString}${nightString}`;
   }
-
 
   // Convert the JSON object into an array for the Table.
   const dataArr = Object.keys(tasks).map((key) => ({
@@ -89,6 +88,14 @@ export default function Tasks() {
       : true;
     const passesDLCFilter = dlcFilter ? entry.dlcName === dlcFilter : true;
     return passesTimeFilter && passesItemNameFilter && passesDLCFilter;
+  });
+
+  // Always sort the data by rank and level in ascending order.
+  const sortedData = filteredData.slice().sort((a, b) => {
+    if (a.rank !== b.rank) {
+      return a.rank - b.rank;
+    }
+    return a.level - b.level;
   });
 
   // Define the table columns.
@@ -176,7 +183,7 @@ export default function Tasks() {
           ))}
         </Select>
       </div>
-      <Table dataSource={filteredData} columns={columns} rowKey="key" />
+      <Table dataSource={sortedData} columns={columns} rowKey="key" />
     </div>
   );
 }
