@@ -70,6 +70,7 @@ export default function Tasks() {
     rank: tasks[key].map.rank,
     level: tasks[key].map.maxLv,
     notBoss: tasks[key].notBoss ? "yes" : "",
+    notice: tasks[key].notice,
   }));
 
   // Dynamically generate unique DLC names for the dropdown.
@@ -139,6 +140,11 @@ export default function Tasks() {
       title: "Not final boss",
       dataIndex: "notBoss",
       key: "notBoss"
+    },
+    {
+      title: "Notice",
+      dataIndex: "notice",
+      key: "notice"
     }
   ];
 
